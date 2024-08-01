@@ -34,8 +34,8 @@ public class GrupoService implements IGrupoService {
     }
 
     @Override
-    public Grupo crearOEditra(Grupo grupo) {
-        return grupoRepository.save(grupo);
+    public Grupo crearOEditOne(Grupo grupo) {
+        return  grupoRepository.save(grupo);
     }
 
     @Override

@@ -1,7 +1,8 @@
 package org.esfe.controladores;
 
+import org.esfe.modelos.Docente;
 import org.esfe.modelos.Grupo;
-import org.esfe.servicios.interfaces.IGrupoService;
+import org.esfe.servicios.interfaces.IDocenteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,10 +19,10 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Controller
-@RequestMapping("/grupos")
-public class GrupoController {
+@RequestMapping("/docentes")
+public class DocenteCotroller{
     @Autowired
-    private IGrupoService grupoService;
+    private IDocenteService docenteService;
 
     @GetMapping
     public String index(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size){
@@ -29,10 +30,10 @@ public class GrupoController {
         int pageSize = size.orElse(5); // tamaño de la página, se asigna 5
         Pageable pageable = PageRequest.of(currentPage, pageSize);
 
-        Page<Grupo> grupos = grupoService.buscarTodosPaginados(pageable);
-        model.addAttribute("grupos", grupos);
+        Page<Docente> docentes = docenteService.buscarTodosPaginados(pageable);
+        model.addAttribute("docentes", docentes);
 
-        int totalPages = grupos.getTotalPages();
+        int totalPages = docentes.getTotalPages();
         if (totalPages > 0) {
             List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
                     .boxed()
@@ -40,52 +41,51 @@ public class GrupoController {
             model.addAttribute("pageNumbers", pageNumbers);
         }
 
-        return "grupo/index";
+        return "docente/index";
     }
-
     @GetMapping("/create")
-    public String create(Grupo grupo){
-        return "grupo/create";
+    public String create(Docente docente){
+        return "docente/create";
     }
 
     @PostMapping("/save")
-    public String save(Grupo grupo, BindingResult result, Model model, RedirectAttributes attributes){
+    public String save(Docente docente, BindingResult result, Model model, RedirectAttributes attributes){
         if(result.hasErrors()){
-            model.addAttribute(grupo);
+            model.addAttribute(docente);
             attributes.addFlashAttribute("error", "No se pudo guardar debido a un error.");
-            return "grupo/create";
+            return "docebte/create";
         }
 
-        grupoService.crearOEditOne(grupo);
-        attributes.addFlashAttribute("msg", "Grupo creado correctamente");
-        return "redirect:/grupos";
+        docenteService.crearOEditar(docente);
+        attributes.addFlashAttribute("msg", "Docente creado correctamente");
+        return "redirect:/docentes";
     }
 
     @GetMapping("/details/{id}")
     public String details(@PathVariable("id") Integer id, Model model){
-        Grupo grupo = grupoService.buscarPorId(id).get();
-        model.addAttribute("grupo", grupo);
-        return "grupo/details";
+        Docente docente = docenteService.buscarPorId(id).get();
+        model.addAttribute("docente", docente);
+        return "docente/details";
     }
 
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") Integer id, Model model){
-        Grupo grupo = grupoService.buscarPorId(id).get();
-        model.addAttribute("grupo", grupo);
-        return "grupo/edit";
+        Docente docente = docenteService.buscarPorId(id).get();
+        model.addAttribute("docente", docente);
+        return "docente/edit";
     }
 
     @GetMapping("/remove/{id}")
     public String remove(@PathVariable("id") Integer id, Model model){
-        Grupo grupo = grupoService.buscarPorId(id).get();
-        model.addAttribute("grupo", grupo);
-        return "grupo/delete";
+        Docente docente = docenteService.buscarPorId(id).get();
+        model.addAttribute("docente", docente);
+        return "docente/delete";
     }
 
     @PostMapping("/delete")
-    public String delete(Grupo grupo, RedirectAttributes attributes){
-        grupoService.eliminarPorId(grupo.getId());
-        attributes.addFlashAttribute("msg", "Grupo eliminado correctamente");
-        return "redirect:/grupos";
+    public String delete(Docente docente, RedirectAttributes attributes){
+        docenteService.eliminarPorId(docente.getId());
+        attributes.addFlashAttribute("msg", "Docente eliminado correctamente");
+        return "redirect:/docentes";
     }
 }

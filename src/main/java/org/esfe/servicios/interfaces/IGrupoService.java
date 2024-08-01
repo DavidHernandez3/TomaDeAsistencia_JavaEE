@@ -14,7 +14,7 @@ public interface IGrupoService {
 
     Optional<Grupo> buscarPorId(Integer id);
 
-    Grupo crearOEditra(Grupo grupo);
+    Grupo crearOEditOne(Grupo grupo);
 
     void eliminarPorId(Integer id);
 
