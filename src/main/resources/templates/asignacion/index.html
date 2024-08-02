@@ -1,10 +1,9 @@
-<html lang="en"
+<html lang="es"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="/layouts/_mainLayout">
 
 <div layout:fragment="content">
-
     <!-- Mostrar mensaje de confirmación en caso de éxito -->
     <div th:if="${msg != null}">
         <script>
@@ -27,35 +26,40 @@
         </script>
     </div>
 
-    <h1>Listado de Grupos</h1>
-    <a th:href="@{/grupos/create}" class="btn btn-outline-primary">Nuevo Grupo</a>
+    <h1>Listado de Asignaciones Docente-Grupo</h1>
+    <a th:href="@{/asignaciones/create}" class="btn btn-outline-primary">Nueva Asignacion</a>
     <table class="table table-striped">
         <thead>
         <tr>
             <th>ID</th>
-            <th>Nombre</th>
-            <th>Descripción</th>
+            <th>Año</th>
+            <th>Ciclo</th>
+            <th>Docente</th>
+            <th>Escuela</th>
+            <th>Grupo</th>
             <th>Acciones</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="item : ${grupos}">
+        <tr th:each="item : ${asignaciones}">
             <td th:text="${item.id}"></td>
-            <td th:text="${item.nombre}"></td>
-            <td th:text="${item.descripcion}"></td>
+            <td th:text="${item.anio}"></td>
+            <td th:text="${item.ciclo}"></td>
+            <td th:text="${item.docente.nombre + ' ' + item.docente.apellido}"></td>
+            <td th:text="${item.docente.escuela}"></td>
+            <td th:text="${item.grupo.nombre}"></td>
             <td>
-                <a th:href="@{/grupos/details/{id} (id = ${item.id}) }" class="btn btn-outline-secondary">Detalles</a> |
-                <a th:href="@{/grupos/edit/{id} (id = ${item.id}) }" class="btn btn-outline-info">Editar</a> |
-                <a th:href="@{/grupos/remove/{id} (id = ${item.id}) }" class="btn btn-outline-danger">Eliminar</a>
+                <a th:href="@{/asignaciones/details/{id} (id = ${item.id}) }" class="btn btn-outline-secondary">Detalles</a> |
+                <a th:href="@{/asignaciones/edit/{id} (id = ${item.id}) }" class="btn btn-outline-info">Editar</a> |
+                <a th:href="@{/asignaciones/remove/{id} (id = ${item.id}) }" class="btn btn-outline-danger">Eliminar</a>
             </td>
         </tr>
         </tbody>
     </table>
-
     <nav aria-label="Page navigation example">
         <ul class="pagination">
             <li class="page-item" th:each="pageNumber : ${pageNumbers}">
-                <a class="page-link" th:href="@{|/grupos?page=${pageNumber}|}" th:text="${pageNumber}"></a>
+                <a class="page-link" th:href="@{|/asignaciones?page=${pageNumber}|}" th:text="${pageNumber}"></a>
             </li>
         </ul>
     </nav>

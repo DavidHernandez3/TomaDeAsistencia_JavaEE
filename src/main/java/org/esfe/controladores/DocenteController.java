@@ -1,7 +1,6 @@
 package org.esfe.controladores;
 
 import org.esfe.modelos.Docente;
-import org.esfe.modelos.Grupo;
 import org.esfe.servicios.interfaces.IDocenteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,7 +19,7 @@ import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/docentes")
-public class DocenteCotroller{
+public class DocenteController {
     @Autowired
     private IDocenteService docenteService;
 
@@ -53,7 +52,7 @@ public class DocenteCotroller{
         if(result.hasErrors()){
             model.addAttribute(docente);
             attributes.addFlashAttribute("error", "No se pudo guardar debido a un error.");
-            return "docebte/create";
+            return "docente/create";
         }
 
         docenteService.crearOEditar(docente);
